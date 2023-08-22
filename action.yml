@@ -1,0 +1,19 @@
+---
+name: build
+description: Build Python packages
+inputs:
+    packages-dir:
+      description: The target directory for distribution
+      required: false
+      default: './dist'
+    verbose:
+      description: Show verbose output.
+      required: false
+      default: 'false'
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+  - ${{ inputs.packages-dir }}
+  - ${{ inputs.verbose }}
+
