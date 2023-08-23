@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM quay.io/pypa/manylinux_2_28_x86_64
 
 LABEL "maintainer" "Dustin Ingram <di@python.org>"
 LABEL "repository" "https://github.com/di/gh-action-build"
@@ -15,8 +15,6 @@ ENV PYTHONPATH "/root/.local/lib/python3.11/site-packages"
 
 COPY requirements.txt .
 RUN pip install --user --no-cache-dir -r requirements.txt
-
-RUN apt-get update && apt-get install docker -y
 
 WORKDIR /app
 COPY LICENSE .

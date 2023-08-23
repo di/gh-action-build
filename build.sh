@@ -41,9 +41,9 @@ export PYTHONPATH="$(python -m site --user-site):${PYTHONPATH}"
 
 INPUT_PACKAGES_DIR="$(get-normalized-input 'packages-dir')"
 
-exec python -m build --outdir ${INPUT_PACKAGES_DIR}
+python -m build --outdir ${INPUT_PACKAGES_DIR}
 
-output=$(exec python check_for_pure_wheels.py --outdir ${INPUT_PACKAGES_DIR})
+output=$(python /app/check_for_pure_wheels.py --outdir ${INPUT_PACKAGES_DIR})
 if [ $? -ne 0 ]; then
     echo \
         ::warning file='# >>' PyPA build action'%3A' \
@@ -53,3 +53,7 @@ if [ $? -ne 0 ]; then
         not all platforms or architectures will be supported by your project. \
         You may want to perform additional, platform-specific builds.
 fi
+
+# Try to run docker-in-docker:
+docker build -t hey -f /app/Dockerfile .
+docker run hey -e INPUT_PACKAGES_DIR='${{ inputs.packages-dir }}' -e INPUT_VERBOSE='${{ inputs.verbose }}'
