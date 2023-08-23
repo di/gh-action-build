@@ -42,3 +42,14 @@ export PYTHONPATH="$(python -m site --user-site):${PYTHONPATH}"
 INPUT_PACKAGES_DIR="$(get-normalized-input 'packages-dir')"
 
 exec python -m build --outdir ${INPUT_PACKAGES_DIR}
+
+output=$(exec python check_for_pure_wheels.py --outdir ${INPUT_PACKAGES_DIR})
+if [ $? -ne 0 ]; then
+    echo \
+        ::warning file='# >>' PyPA build action'%3A' \
+        Non-pure wheel built\
+        '<< ':: \
+        One or more wheels are not pure Python wheels. This may mean that your \
+        not all platforms or architectures will be supported by your project. \
+        You may want to perform additional, platform-specific builds.
+fi
