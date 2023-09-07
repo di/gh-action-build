@@ -4,11 +4,11 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements.txt requirements.in
 #
-build==0.10.0
+build==1.0.3
     # via -r requirements.in
 packaging==23.1
-    # via build
+    # via
+    #   -r requirements.in
+    #   build
 pyproject-hooks==1.0.0
-    # via build
-tomli==2.0.1
     # via build
